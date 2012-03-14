@@ -41,6 +41,11 @@ If things go hairy, e.g. your vehicle is being hit, you can shake your cockpit:
 Where intensity is a number from 0 to 1. Duration is passed in ms. Both arguments are optional, intensity defaulting to 0.5 and duration to 300.
 
 
+# Demos
+
+* [Using cockpit.js over a three.js example.](http://jensarps.github.com/cockpit.js/demo/three) When you get too close to the earth's atmosphere, the ship will start to vibrate.
+* [A cockpit over a white background.](http://jensarps.github.com/cockpit.js/demo/plain) Yeah. Doubleclick to shake, right click to vibrate.
+
 
 # TODO
 
