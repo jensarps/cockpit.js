@@ -3,31 +3,21 @@
 <head>
   <meta charset='utf-8'>
 
-  <title>jensarps/cockpit.js @ GitHub</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #46a415;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #b95bea; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #b95bea; }
-    h3 { text-align: center; color: #b95bea; }
-    a { color: #b95bea; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
+  <title>cockpit.js</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	<script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-10931011-2']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>
 </head>
 
 <body>
@@ -35,54 +25,43 @@
 
   <div id="container">
 
-    <div class="download">
-      <a href="https://github.com/jensarps/cockpit.js/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/jensarps/cockpit.js/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="https://github.com/jensarps/cockpit.js">cockpit.js</a>
-      <span class="small">by <a href="https://github.com/jensarps">jensarps</a></span></h1>
+    <h1><a href="https://github.com/jensarps/cockpit.js">cockpit.js</a></h1>
 
     <div class="description">
-      A retro-style 2D cockpit overlay for your 3D game
+        A retro-style 2D cockpit overlay for your 3D game
     </div>
 
-    
-
-    
-
-    
-
-    
-
-    
-      <h2>Authors</h2>
-      <p>Jens Arps (arps@uxebu.com)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p>Jens Arps (mail@jensarps.de)<br/>      </p>
-    
-
-    <h2>Download</h2>
+	<p>
+        cockpit.js lets you add an retro-style 2D cockpit overlay to your 3D game and
+        lets you move it around, vibrate and shake it to simulate the player's head
+        movement and/or physical impact on the ship/car/plane/vehicle.
+    </p>
     <p>
-      You can download this project in either
-      <a href="https://github.com/jensarps/cockpit.js/zipball/master">zip</a> or
-      <a href="https://github.com/jensarps/cockpit.js/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/jensarps/cockpit.js</pre>
-    </p>
+        The idea is strikingly simple and has worked for years in simulators (and is
+        still being used today in games). I figured that the implementation would be
+        strikingly simple as well and gave it a shot on a sunday night. But, I like it,
+        and plan to add more features to it without increasing it's low complexity.
+	</p>
+	
+	<h2>Usage</h2>
+	<p>For details on usage, please see the project's <a href="https://github.com/jensarps/cockpit.js/blob/master/README.md">README</a>.</p>
+
+    <h2>Demo</h2>
+	<ul>
+        <li><a href="demo/three">Three.js</a>: Using cockpit over a three.js example. When you get too close to the earth's atmosphere, the ship will start to vibrate.</li>
+		<li><a href="demo/plain">Plain</a>: A cockpit over a white background. Yeah. Doubleclick to shake, right click to vibrate.</li>
+	</ul>
+
+	<h2>Author</h2>
+	<p><a href="https://github.com/jensarps">Jens Arps</a></p>
+	
+	<h2>Contact</h2>
+	<p>Ping me on Twitter: <a href="https://twitter.com/#!/jensarps">@jensarps</a></p>
 
     <div class="footer">
       get the source code on GitHub : <a href="https://github.com/jensarps/cockpit.js">jensarps/cockpit.js</a>
     </div>
 
   </div>
-
 </body>
 </html>
