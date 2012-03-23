@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - fly camera - earth</title>
+		<title>cockpit.js demo over three.js fly camera example</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -14,7 +14,7 @@
 				overflow:hidden;
 
 				font-family:Monospace;
-				font-size:13px;
+				font-size:10px;
 				text-align:center;
 			}
 
@@ -38,6 +38,7 @@
                 font-family: monospace;
                 color: #98fb98;
                 position: absolute;
+                font-size: 14px;
 
                 -webkit-transform: scale(0.8) scaleZ(1.0) skewX(33deg);
                 -webkit-transform-origin: 0% 0%;
@@ -80,8 +81,11 @@
 
 	<body>
 
-		<div id="info"><a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - earth [fly camera]<br/><br/>
-		<b>WASD</b> move, <b>R|F</b> up | down, <b>Q|E</b> roll, <b>up|down</b> pitch, <b>left|right</b> yaw<br/>
+		<div id="info">
+            cockpit.js overlay demo<br/>
+            [using webgl demo from <a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a>]<br/>
+            <br/>
+		    <b>W|A</b> thrust - <b>Q|E</b> roll
 		</div>
 
 		<script>
