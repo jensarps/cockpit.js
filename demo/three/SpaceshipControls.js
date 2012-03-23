@@ -62,8 +62,8 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 
 		switch( event.keyCode ) {
 
-      case 87: /*W*/ this.velocity = Math.min(1, this.velocity + 0.01); break;
-      case 83: /*S*/ this.velocity = Math.max(0, this.velocity - 0.01); break;
+      case 87: /*W*/ this.velocity = Math.min(1, this.velocity + 0.015); break;
+      case 83: /*S*/ this.velocity = Math.max(0, this.velocity - 0.015); break;
 
 			// case 65: /*A*/ this.moveState.left = 1; break;
 			// case 68: /*D*/ this.moveState.right = 1; break;

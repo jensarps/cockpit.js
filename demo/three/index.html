@@ -143,8 +143,8 @@
 				controls.domElement = container;
 
 				controls.rollSpeed = Math.PI / 24;
-                controls.maxSpeed = 800;
-                controls.inertia = 75;
+                controls.maxSpeed = 700;
+                controls.inertia = 150;
 
 
 				dirLight = new THREE.DirectionalLight( 0xffffff );
@@ -344,12 +344,12 @@
 				} else {
 
 					d = ( dPlanet - radius * 1.01 );
-                    if (d < 1000 && !cockpit.isVibrating) {
+                    if (d < 2000 && !cockpit.isVibrating) {
                         controls.breakingForce = 0.5;
                         console.log('beginVibrate');
                         cockpit.beginVibrate();
                     }
-                    if (d > 1000 && cockpit.isVibrating) {
+                    if (d > 2000 && cockpit.isVibrating) {
                         controls.breakingForce = 0;
                         console.log('endVibrate');
                         cockpit.endVibrate();
