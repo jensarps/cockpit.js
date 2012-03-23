@@ -120,7 +120,7 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 			var halfHeight = container.size[ 1 ] / 2;
 
 			this.moveState.yawLeft   = - ( ( event.pageX - container.offset[ 0 ] ) - halfWidth  ) / halfWidth;
-			this.moveState.pitchDown =   ( ( event.pageY - container.offset[ 1 ] ) - halfHeight ) / halfHeight;
+			this.moveState.pitchDown = - ( ( event.pageY - container.offset[ 1 ] ) - halfHeight ) / halfHeight;
 
 			this.updateRotationVector();
 

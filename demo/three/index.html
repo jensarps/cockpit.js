@@ -111,7 +111,7 @@
             cockpit.addText('hud-speed', 'SPD:');
             cockpit.addText('hud-velocity', 'PWR:');
             document.body.addEventListener('mousemove', function(evt){
-                var vert = ( SCREEN_HEIGHT / 2 - evt.clientY ) / ( SCREEN_HEIGHT / 2 ) * 0.8;
+                var vert = ( SCREEN_HEIGHT / 2 - evt.clientY ) / ( SCREEN_HEIGHT / 2 ) * -0.8;
                 var hor = ( SCREEN_WIDTH / 2 - evt.clientX ) / ( SCREEN_WIDTH / 2 ) * 0.8;
                 cockpit.move(hor, vert);
             });
