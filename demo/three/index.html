@@ -47,6 +47,7 @@
 		<script src="js/Stats.js"></script>
 
 
+        <script src="SpaceshipControls.js"></script>
         <script src="../../cockpit.js"></script>
 
 	</head>
@@ -63,7 +64,6 @@
 
 			var radius = 6371;
 			var tilt = 0.41;
-			var rotationSpeed = 0.02;
 
 			var cloudsScale = 1.005;
 			var moonScale = 0.23;
@@ -104,11 +104,10 @@
 
 				scene.add( camera );
 
-				controls = new THREE.FlyControls( camera );
+				controls = new THREE.SpacheshipControls( camera );
 
-                console.log(controls);
 
-				controls.movementSpeed = 1000;
+				controls.movementSpeed = 0;
 				controls.domElement = container;
 				controls.rollSpeed = Math.PI / 24;
 				controls.autoForward = false;
@@ -295,8 +294,8 @@
 
 				var delta = clock.getDelta();
 
-				//meshPlanet.rotation.y += rotationSpeed * delta;
-				//meshClouds.rotation.y += 1.25 * rotationSpeed * delta;
+				meshPlanet.rotation.y += 0.001 * delta;
+				meshClouds.rotation.y += 0.005 * delta;
 
 				// slow down as we approach the surface
 
@@ -312,17 +311,18 @@
 
 					d = ( dPlanet - radius * 1.01 );
                     if (d < 1000 && !cockpit.isVibrating) {
+                        controls.breakingForce = 0.5;
                         console.log('beginVibrate');
                         cockpit.beginVibrate();
                     }
                     if (d > 1000 && cockpit.isVibrating) {
+                        controls.breakingForce = 0;
                         console.log('endVibrate');
                         cockpit.endVibrate();
                     }
 
 				}
 
-				controls.movementSpeed = 0.1 * d;
 				controls.update( delta );
 
 				renderer.clear();
