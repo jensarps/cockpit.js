@@ -31,6 +31,32 @@
 			}
 
 			b { color:orange }
+
+            /* cockpit hud */
+
+            .cockpit-text {
+                font-family: monospace;
+                color: #98fb98;
+                position: absolute;
+
+                -webkit-transform: scale(0.8) scaleZ(1.0) skewX(33deg);
+                -webkit-transform-origin: 0% 0%;
+                -webkit-perspective: 200;
+                -webkit-perspective-origin: 50% 50%;
+                -moz-transform: scale(0.8) scaleZ(1.0) skewX(33deg);
+                -moz-transform-origin: 0% 0%;
+                -moz-perspective: 200;
+                -moz-perspective-origin: 50% 50%;
+            }
+            #hud-speed {
+                bottom: 24%;
+                left: 42.8%;
+            }
+            #hud-velocity {
+                bottom: 26%;
+                left: 42.4%;
+            }
+
 		</style>
 
 		<script src="Three.js"></script>
@@ -82,6 +108,8 @@
 			var clock = new THREE.Clock();
 
             var cockpit = new Cockpit('../cockpit.png');
+            cockpit.addText('hud-speed', 'SPD:');
+            cockpit.addText('hud-velocity', 'PWR:');
             document.body.addEventListener('mousemove', function(evt){
                 var vert = ( SCREEN_HEIGHT / 2 - evt.clientY ) / ( SCREEN_HEIGHT / 2 ) * 0.8;
                 var hor = ( SCREEN_WIDTH / 2 - evt.clientX ) / ( SCREEN_WIDTH / 2 ) * 0.8;
@@ -329,6 +357,9 @@
 
 				renderer.clear();
 				composer.render( delta );
+
+                cockpit.updateText('hud-speed', 'SPD: ' + Math.floor(controls.movementSpeed * controls.maxSpeed));
+                cockpit.updateText('hud-velocity', 'PWR: ' + Math.floor(controls.velocity * 100) + '%');
 
 			};
 
