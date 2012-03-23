@@ -1,5 +1,7 @@
 /**
- * @author James Baicoianu / http://www.baicoianu.com/
+ * @author Jens Arps
+ *
+ * Based on FlyControls by James Baicoianu / http://www.baicoianu.com/
  */
 
 THREE.SpacheshipControls = function ( object, domElement ) {
