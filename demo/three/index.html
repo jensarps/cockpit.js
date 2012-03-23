@@ -109,9 +109,11 @@
 
 				controls.movementSpeed = 0;
 				controls.domElement = container;
+
 				controls.rollSpeed = Math.PI / 24;
-				controls.autoForward = false;
-				controls.dragToLook = false;
+                controls.maxSpeed = 800;
+                controls.inertia = 75;
+
 
 				dirLight = new THREE.DirectionalLight( 0xffffff );
 				dirLight.position.set( -1, 0, 1 ).normalize();
