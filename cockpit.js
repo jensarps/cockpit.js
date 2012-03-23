@@ -15,6 +15,8 @@
 
     wrapperNode: null,
 
+    textNodes: null,
+
     currentVertical: 0,
 
     currentHorizontal: 0,
@@ -22,6 +24,7 @@
     isVibrating: false,
 
     setup: function() {
+      this.textNodes = {};
       this.setupNodes();
     },
 
@@ -152,6 +155,19 @@
 
     endVibrate: function(){
       this.isVibrating = false;
+    },
+
+    addText: function(id, initialValue){
+      var node = document.createElement('span');
+      node.innerText = initialValue;
+      node.id = id;
+      node.className = 'cockpit-text';
+      this.cockpitNode.appendChild(node);
+      this.textNodes[id] = node;
+    },
+
+    updateText: function(id, value){
+      this.textNodes[id].innerText = value;
     }
   };
 
