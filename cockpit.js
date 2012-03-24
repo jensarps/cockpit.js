@@ -174,7 +174,7 @@
      */
     addText: function(id, initialValue){
       var node = document.createElement('span');
-      node.innerText = initialValue;
+      node.textContent = initialValue;
       node.id = id;
       node.className = 'cockpit-text';
       this.cockpitNode.appendChild(node);
@@ -188,7 +188,7 @@
      * @param {string} value The value to be displayed
      */
     updateText: function(id, value){
-      this.textNodes[id].innerText = value;
+      this.textNodes[id].textContent = value;
     }
   };
 
