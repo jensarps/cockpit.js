@@ -370,12 +370,10 @@
 					d = ( dPlanet - radius * 1.01 );
                     if (d < 2000 && !cockpit.isVibrating) {
                         controls.breakingForce = 0.5;
-                        console.log('beginVibrate');
                         cockpit.beginVibrate();
                     }
                     if (d > 2000 && cockpit.isVibrating) {
                         controls.breakingForce = 0;
-                        console.log('endVibrate');
                         cockpit.endVibrate();
                     }
 
