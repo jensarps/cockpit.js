@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - fly camera - earth</title>
+		<title>cockpit.js demo over three.js fly camera example</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -14,7 +14,7 @@
 				overflow:hidden;
 
 				font-family:Monospace;
-				font-size:13px;
+				font-size:10px;
 				text-align:center;
 			}
 
@@ -31,6 +31,55 @@
 			}
 
 			b { color:orange }
+
+            /* cockpit hud */
+
+            .cockpit-text {
+                font-family: monospace;
+                color: #98fb98;
+                position: absolute;
+                font-size: 14px;
+            }
+
+            /* left side */
+            #hud-speed,
+            #hud-thrust {
+                -webkit-transform: scale(0.8) scaleZ(1.0) skewX(33deg);
+                -webkit-transform-origin: 0% 0%;
+                -webkit-perspective: 200;
+                -webkit-perspective-origin: 50% 50%;
+                -moz-transform: scale(0.8) scaleZ(1.0) skewX(33deg);
+                -moz-transform-origin: 0% 0%;
+                -moz-perspective: 200;
+                -moz-perspective-origin: 50% 50%;
+            }
+            #hud-speed {
+                bottom: 24%;
+                left: 42.8%;
+            }
+            #hud-thrust {
+                bottom: 26%;
+                left: 42.4%;
+            }
+
+            /* right side */
+            #hud-force {
+                -webkit-transform: scale(0.8) scaleZ(1.0) skewX(-33deg);
+                -webkit-transform-origin: 0% 0%;
+                -webkit-perspective: 200;
+                -webkit-perspective-origin: 50% 50%;
+                -moz-transform: scale(0.8) scaleZ(1.0) skewX(-33deg);
+                -moz-transform-origin: 0% 0%;
+                -moz-perspective: 200;
+                -moz-perspective-origin: 50% 50%;
+
+                left: 52%;
+                bottom: 24%;
+            }
+            .force-warning #hud-force {
+                color: #982222;
+            }
+
 		</style>
 
 		<script src="Three.js"></script>
@@ -47,14 +96,18 @@
 		<script src="js/Stats.js"></script>
 
 
+        <script src="SpaceshipControls.js"></script>
         <script src="../../cockpit.js"></script>
 
 	</head>
 
 	<body>
 
-		<div id="info"><a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - earth [fly camera]<br/><br/>
-		<b>WASD</b> move, <b>R|F</b> up | down, <b>Q|E</b> roll, <b>up|down</b> pitch, <b>left|right</b> yaw<br/>
+		<div id="info">
+            <a href="http://jensarps.github.com/cockpit.js/" target="_blank">cockpit.js</a> overlay demo<br/>
+            [over a webgl demo from <a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a>]<br/>
+            <br/>
+		    <b>W|A</b> thrust - <b>Q|E</b> roll
 		</div>
 
 		<script>
@@ -63,7 +116,6 @@
 
 			var radius = 6371;
 			var tilt = 0.41;
-			var rotationSpeed = 0.02;
 
 			var cloudsScale = 1.005;
 			var moonScale = 0.23;
@@ -82,8 +134,14 @@
 			var clock = new THREE.Clock();
 
             var cockpit = new Cockpit('../cockpit.png');
+
+            cockpit.addText('hud-speed', 'SPD:');
+            cockpit.addText('hud-thrust', 'PWR:');
+
+            cockpit.addText('hud-force', 'F:');
+
             document.body.addEventListener('mousemove', function(evt){
-                var vert = ( SCREEN_HEIGHT / 2 - evt.clientY ) / ( SCREEN_HEIGHT / 2 ) * 0.8;
+                var vert = ( SCREEN_HEIGHT / 2 - evt.clientY ) / ( SCREEN_HEIGHT / 2 ) * -0.8;
                 var hor = ( SCREEN_WIDTH / 2 - evt.clientX ) / ( SCREEN_WIDTH / 2 ) * 0.8;
                 cockpit.move(hor, vert);
             });
@@ -104,15 +162,16 @@
 
 				scene.add( camera );
 
-				controls = new THREE.FlyControls( camera );
+				controls = new THREE.SpacheshipControls( camera );
 
-                console.log(controls);
 
-				controls.movementSpeed = 1000;
+				controls.movementSpeed = 0;
 				controls.domElement = container;
+
 				controls.rollSpeed = Math.PI / 24;
-				controls.autoForward = false;
-				controls.dragToLook = false;
+                controls.maxSpeed = 700;
+                controls.inertia = 150;
+
 
 				dirLight = new THREE.DirectionalLight( 0xffffff );
 				dirLight.position.set( -1, 0, 1 ).normalize();
@@ -291,12 +350,14 @@
 
 			function render() {
 
+                var vel, force, forceLimitReached, atmosphereEntered;
+
 				// rotate the planet and clouds
 
 				var delta = clock.getDelta();
 
-				//meshPlanet.rotation.y += rotationSpeed * delta;
-				//meshClouds.rotation.y += 1.25 * rotationSpeed * delta;
+				meshPlanet.rotation.y += 0.001 * delta;
+				meshClouds.rotation.y += 0.005 * delta;
 
 				// slow down as we approach the surface
 
@@ -311,22 +372,37 @@
 				} else {
 
 					d = ( dPlanet - radius * 1.01 );
-                    if (d < 1000 && !cockpit.isVibrating) {
-                        console.log('beginVibrate');
-                        cockpit.beginVibrate();
-                    }
-                    if (d > 1000 && cockpit.isVibrating) {
-                        console.log('endVibrate');
-                        cockpit.endVibrate();
+                    if (d < 2000) {
+                        controls.breakingForce = 0.5;
+                        atmosphereEntered = true;
+                    } else {
+                        controls.breakingForce = 0;
+                        atmosphereEntered = false;
                     }
 
 				}
 
-				controls.movementSpeed = 0.1 * d;
+                vel = Math.max(0, controls.velocity - controls.breakingForce);
+                force = ( vel - controls.movementSpeed ) * 10;
+                forceLimitReached = Math.abs(force) > 3.75;
+
+                document.documentElement.classList[forceLimitReached ? 'add' : 'remove']('force-warning');
+
+                if( ( forceLimitReached || atmosphereEntered ) && !cockpit.isVibrating){
+                    cockpit.beginVibrate();
+                }
+                if( !forceLimitReached && !atmosphereEntered && cockpit.isVibrating){
+                    cockpit.endVibrate();
+                }
+
 				controls.update( delta );
 
 				renderer.clear();
 				composer.render( delta );
+
+                cockpit.updateText('hud-speed', 'SPD: ' + Math.floor(controls.movementSpeed * controls.maxSpeed));
+                cockpit.updateText('hud-thrust', 'PWR: ' + Math.floor(controls.velocity * 100) + '%');
+                cockpit.updateText('hud-force', 'G: ' + force.toFixed(2) );
 
 			};
 

@@ -40,18 +40,32 @@ If things go hairy, e.g. your vehicle is being hit, you can shake your cockpit:
 
 Where intensity is a number from 0 to 1. Duration is passed in ms. Both arguments are optional, intensity defaulting to 0.5 and duration to 300.
 
+You can also add some HUD-like text items to your cockpit, that will move around with the cockpit:
+
+`cockpit.addText(id, textToDisplay);`
+
+The id is applied to the text item's DOMNode, so you can use it to position and style it. For positioning, I recommend to use absolute positioning with percentages so that the text will stay in place independent of window size (well, almost, soo TODO section).
+
+To update your text item, just call
+
+`cockpit.updateText(id, textToDisplay);`
+
+with the id you previously passed and the new text.
+
 
 # Demos
 
-* [Using cockpit.js over a three.js example.](http://jensarps.github.com/cockpit.js/demo/three) When you get too close to the earth's atmosphere, the ship will start to vibrate.
-* [A cockpit over a white background.](http://jensarps.github.com/cockpit.js/demo/plain) Yeah. Doubleclick to shake, right click to vibrate.
+* [Using cockpit.js over a three.js example.](http://jensarps.github.com/cockpit.js/demo/three) When you get too close to the earth's atmosphere, the ship will start to vibrate and lose speed. Observe the HUD to see your current thrust, speed and g-force.
+* [A cockpit over a white background.](http://jensarps.github.com/cockpit.js/demo/plain) Yeah. Just for a quick test. Doubleclick to shake, right click to vibrate.
 
 
 # TODO
 
 * Use transform3d() instead of left/right and compare performance
 * Add beginShake() and endShake() methods to do ongoing shaking
-* Add methods to conveniently add HUD like text to the cockpit
+* ~~Add methods to conveniently add HUD like text to the cockpit~~
+* Add methods to allow grouping of text items
+* Handle positioning of text inside of the code to make it precisely show up at the desired spot
 * Add preventMove param to vibrate and shake to enable more precise movements
 * Change shake and vibrate signature to kwArgs to not screw up existing code
 when new params are introduced

@@ -15,6 +15,8 @@
 
     wrapperNode: null,
 
+    textNodes: null,
+
     currentVertical: 0,
 
     currentHorizontal: 0,
@@ -22,6 +24,7 @@
     isVibrating: false,
 
     setup: function() {
+      this.textNodes = {};
       this.setupNodes();
     },
 
@@ -110,7 +113,7 @@
     },
 
     /**
-     * Vibrates the cockpit
+     * Vibrates the cockpit for a set duration
      *
      * You can pass an optional duration value.
      *
@@ -133,6 +136,11 @@
       }
     },
 
+    /**
+     * Starts to vibrate the cockpit
+     *
+     * The cockpit will vibrate until endVibrate() is called
+     */
     beginVibrate: function(){
       this.isVibrating = true;
       var direction = 1;
@@ -150,8 +158,37 @@
 
     },
 
+    /**
+     * Ends the vibration started by beginVibrate()
+     *
+     */
     endVibrate: function(){
       this.isVibrating = false;
+    },
+
+    /**
+     * Adds a text item to the cockpit overlay
+     *
+     * @param {string} id An identifier for this text item
+     * @param {sring} initialValue An initial value to be displayed
+     */
+    addText: function(id, initialValue){
+      var node = document.createElement('span');
+      node.innerText = initialValue;
+      node.id = id;
+      node.className = 'cockpit-text';
+      this.cockpitNode.appendChild(node);
+      this.textNodes[id] = node;
+    },
+
+    /**
+     * Updates a text item
+     *
+     * @param {string} id The identifier of this text item
+     * @param {string} value The value to be displayed
+     */
+    updateText: function(id, value){
+      this.textNodes[id].innerText = value;
     }
   };
 
