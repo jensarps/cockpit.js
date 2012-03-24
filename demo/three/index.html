@@ -368,19 +368,27 @@
 				} else {
 
 					d = ( dPlanet - radius * 1.01 );
-                    if (d < 2000 && !cockpit.isVibrating) {
+                    if (d < 2000) {
                         controls.breakingForce = 0.5;
-                        cockpit.beginVibrate();
-                    }
-                    if (d > 2000 && cockpit.isVibrating) {
+                        atmosphereEntered = true;
+                    } else {
                         controls.breakingForce = 0;
-                        cockpit.endVibrate();
+                        atmosphereEntered = false;
                     }
 
 				}
 
                 vel = Math.max(0, controls.velocity - controls.breakingForce);
                 force = ( vel - controls.movementSpeed ) * 10;
+                forceLimitReached = Math.abs(force) > 3.75;
+
+                if( ( forceLimitReached || atmosphereEntered ) && !cockpit.isVibrating){
+                    cockpit.beginVibrate();
+                }
+                if( !forceLimitReached && !atmosphereEntered && cockpit.isVibrating){
+                    cockpit.endVibrate();
+                }
+
 				controls.update( delta );
 
 				renderer.clear();
