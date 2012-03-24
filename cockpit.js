@@ -26,6 +26,7 @@
     setup: function() {
       this.textNodes = {};
       this.setupNodes();
+      this.textProperty = typeof this.wrapperNode.innerText !== 'undefined' ? 'innerText' : 'textContent';
     },
 
     setupNodes: function() {
@@ -174,11 +175,14 @@
      */
     addText: function(id, initialValue){
       var node = document.createElement('span');
-      node.textContent = initialValue;
+      node[this.textProperty] = initialValue;
       node.id = id;
       node.className = 'cockpit-text';
       this.cockpitNode.appendChild(node);
-      this.textNodes[id] = node;
+      this.textNodes[id] = {
+        node: node,
+        value: initialValue
+      };
     },
 
     /**
@@ -188,7 +192,10 @@
      * @param {string} value The value to be displayed
      */
     updateText: function(id, value){
-      this.textNodes[id].textContent = value;
+      var textItem = this.textNodes[id];
+      if(textItem.value !== value){
+        textItem.node[this.textProperty] = value;
+      }
     }
   };
 
