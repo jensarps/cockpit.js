@@ -346,6 +346,8 @@
 
 			function render() {
 
+                var vel, force, forceLimitReached, atmosphereEntered;
+
 				// rotate the planet and clouds
 
 				var delta = clock.getDelta();
@@ -379,6 +381,8 @@
 
 				}
 
+                vel = Math.max(0, controls.velocity - controls.breakingForce);
+                force = ( vel - controls.movementSpeed ) * 10;
 				controls.update( delta );
 
 				renderer.clear();
@@ -386,6 +390,7 @@
 
                 cockpit.updateText('hud-speed', 'SPD: ' + Math.floor(controls.movementSpeed * controls.maxSpeed));
                 cockpit.updateText('hud-thrust', 'PWR: ' + Math.floor(controls.velocity * 100) + '%');
+                cockpit.updateText('hud-force', 'G: ' + force.toFixed(2) );
 
 			};
 
