@@ -55,7 +55,7 @@ with the id you previously passed and the new text.
 
 # Demos
 
-* [Using cockpit.js over a three.js example.](http://jensarps.github.com/cockpit.js/demo/three) When you get too close to the earth's atmosphere, the ship will start to vibrate and lose speed. Observe the HUD to see your current thrust and speed.
+* [Using cockpit.js over a three.js example.](http://jensarps.github.com/cockpit.js/demo/three) When you get too close to the earth's atmosphere, the ship will start to vibrate and lose speed. Observe the HUD to see your current thrust, speed and g-force.
 * [A cockpit over a white background.](http://jensarps.github.com/cockpit.js/demo/plain) Yeah. Just for a quick test. Doubleclick to shake, right click to vibrate.
 
 
