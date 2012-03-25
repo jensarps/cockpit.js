@@ -183,7 +183,7 @@
       var interval;
 
       interval = setInterval(function(){
-        if (!this.isVibrating) {
+        if (this.state !== 'vibrate') {
           clearInterval(interval);
           return;
         }
