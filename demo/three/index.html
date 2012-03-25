@@ -134,6 +134,7 @@
 			var clock = new THREE.Clock();
 
             var cockpit = new Cockpit('../cockpit.png');
+            var cockpitState = 'normal';
 
             cockpit.addText('hud-speed', 'SPD:');
             cockpit.addText('hud-thrust', 'PWR:');
@@ -350,7 +351,7 @@
 
 			function render() {
 
-                var vel, force, forceLimitReached, atmosphereEntered;
+                var vel, force, forceLimitReached, atmosphereEntered, state;
 
 				// rotate the planet and clouds
 
@@ -388,11 +389,18 @@
 
                 document.documentElement.classList[forceLimitReached ? 'add' : 'remove']('force-warning');
 
-                if( ( forceLimitReached || atmosphereEntered ) && !cockpit.isVibrating){
-                    cockpit.beginVibrate();
+                if( forceLimitReached || atmosphereEntered ){
+                    state = 'vibrate';
                 }
-                if( !forceLimitReached && !atmosphereEntered && cockpit.isVibrating){
-                    cockpit.endVibrate();
+                if( forceLimitReached && atmosphereEntered ){
+                    state = 'shake';
+                }
+                if( !forceLimitReached && !atmosphereEntered ){
+                    state = 'normal';
+                }
+                if(state !== cockpitState){
+                    cockpit.setState(state);
+                    cockpitState = state;
                 }
 
 				controls.update( delta );
