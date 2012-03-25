@@ -40,6 +40,12 @@ If things go hairy, e.g. your vehicle is being hit, you can shake your cockpit:
 
 Where intensity is a number from 0 to 1. Duration is passed in ms. Both arguments are optional, intensity defaulting to 0.5 and duration to 300.
 
+As with vibrating, you can shake the cockpit for an unkown amout of time using
+
+`cockpit.beginShake(intensity);` and `cockpit.endShake();`
+
+The intensity param is optional and works as described above.
+
 You can also add some HUD-like text items to your cockpit, that will move around with the cockpit:
 
 `cockpit.addText(id, textToDisplay);`
