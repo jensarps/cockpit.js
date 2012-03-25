@@ -21,9 +21,7 @@
 
     currentHorizontal: 0,
 
-    isVibrating: false,
-
-    isShaking: false,
+    state: 'normal',
 
     setup: function() {
       this.textNodes = {};
@@ -123,12 +121,15 @@
      * @param {number} [intensity] The shake intensity from 0 to 1
      */
     beginShake: function(intensity){
-      this.isShaking = true;
+      if(this.state === 'shake'){
+        return;
+      }
+      this.state = 'shake';
       intensity = intensity || 0.5;
       var interval;
 
       interval = setInterval(function(){
-        if (!this.isShaking) {
+        if (this.state !== 'shake') {
           clearInterval(interval);
           return;
         }
@@ -174,7 +175,10 @@
      * The cockpit will vibrate until endVibrate() is called
      */
     beginVibrate: function(){
-      this.isVibrating = true;
+      if(this.state === 'vibrate'){
+        return;
+      }
+      this.state = 'vibrate'
       var direction = 1;
       var interval;
 
