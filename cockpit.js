@@ -202,6 +202,33 @@
     },
 
     /**
+     * Sets the state of the cockpit
+     *
+     * Will also end previous states if differs from current.
+     *
+     * This can be used instead of the begin/end methods.
+     *
+     * @param {string} state The new state to set, can be one of 'vibrate',
+     *    'shake' or 'normal'
+     */
+    setState: function(state){
+      if(this.state === state){
+        return;
+      }
+      switch(state){
+        case 'vibrate':
+          this.beginVibrate();
+          break;
+        case 'shake':
+          this.beginShake();
+          break;
+        default:
+          this.state = 'normal';
+          break;
+      }
+    },
+
+    /**
      * Adds a text item to the cockpit overlay
      *
      * @param {string} id An identifier for this text item
