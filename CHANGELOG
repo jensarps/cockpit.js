@@ -3,3 +3,6 @@
 
 0.2
 * Added addText and updateText methods
+
+0.3
+* Added beginShake and endShake methods

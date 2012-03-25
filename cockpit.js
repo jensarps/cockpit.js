@@ -23,6 +23,8 @@
 
     isVibrating: false,
 
+    isShaking: false,
+
     setup: function() {
       this.textNodes = {};
       this.setupNodes();
@@ -114,6 +116,35 @@
     },
 
     /**
+     * Starts to shake the cockpit
+     *
+     * The cockpit will shake until endShake() is called.
+     *
+     * @param {number} [intensity] The shake intensity from 0 to 1
+     */
+    beginShake: function(intensity){
+      this.isShaking = true;
+      intensity = intensity || 0.5;
+      var interval;
+
+      interval = setInterval(function(){
+        if (!this.isShaking) {
+          clearInterval(interval);
+          return;
+        }
+        this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
+      }.bind(this), 30);
+    },
+
+    /**
+     * Ends the shaking started with beginShake()
+     *
+     */
+    endShake: function(){
+      this.isShaking = false;
+    },
+
+    /**
      * Vibrates the cockpit for a set duration
      *
      * You can pass an optional duration value.
@@ -156,7 +187,6 @@
         var modificator = 0.01 * direction;
         this.move(this.currentHorizontal + modificator, this.currentVertical + modificator);
       }.bind(this), 30);
-
     },
 
     /**
