@@ -11,7 +11,7 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 	if ( domElement ) this.domElement.setAttribute( 'tabindex', -1 );
 
-  this.updateContainerDimensions();
+  this.onContainerDimensionsChanged();
 
   // initial values
 	this.movementSpeed = 0;
@@ -175,7 +175,7 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 
 	};
 
-	this.updateContainerDimensions = function() {
+	this.onContainerDimensionsChanged = function() {
 
     var dimensions;
 
