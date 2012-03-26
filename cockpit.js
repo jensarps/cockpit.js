@@ -137,7 +137,7 @@
           return;
         }
         this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
-      }.bind(this), 30);
+      }.bind(this), 50);
     },
 
     /**
