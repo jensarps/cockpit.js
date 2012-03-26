@@ -65,6 +65,9 @@
      * @param {number} verticalValue The vertical movement
      */
     move: function(horizontalValue, verticalValue){
+      if(this.currentHorizontal == horizontalValue && this.currentVertical == verticalValue){
+        return;
+      }
       var cockpitNodeStyle = this.cockpitNode.style;
       var left = ( horizontalValue * 10 - 15 ).toFixed(2) + '%';
       var top = ( verticalValue * 10 - 15 ).toFixed(2) + '%';
