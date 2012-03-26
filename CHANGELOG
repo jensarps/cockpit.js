@@ -7,3 +7,4 @@
 0.3
 * Added beginShake and endShake methods
 * Introduced states, added setState method
+* Performance tweaks
