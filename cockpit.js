@@ -98,22 +98,14 @@
      * @param {number} [duration] The shake duration in ms
      */
     shake: function(intensity, duration){
+      if(this.state === 'shake'){
+        return;
+      }
       intensity = intensity || 0.5;
       duration = duration || 300;
 
-      var hits = ~~(duration / 50);
-      var prevHor = this.currentHorizontal;
-      var prevVert = this.currentVertical;
-
-      for (var i = 0; i < hits; i++) {
-        setTimeout(function(){
-          //this.move(this.getRandomPosition(prevHor, intensity), this.getRandomPosition(prevVert, intensity));
-          this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
-        }.bind(this), 50 * i);
-      }
-      setTimeout(function(){
-        //this.move(prevHor, prevVert);
-      }.bind(this), 50 * hits);
+      setTimeout(this.endShake.bind(this), duration);
+      this.beginShake(intensity);
     },
 
     /**
