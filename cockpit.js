@@ -21,7 +21,7 @@
 
     currentHorizontal: 0,
 
-    isVibrating: false,
+    state: 'normal',
 
     setup: function() {
       this.textNodes = {};
@@ -65,6 +65,9 @@
      * @param {number} verticalValue The vertical movement
      */
     move: function(horizontalValue, verticalValue){
+      if(this.currentHorizontal == horizontalValue && this.currentVertical == verticalValue){
+        return;
+      }
       var cockpitNodeStyle = this.cockpitNode.style;
       var left = ( horizontalValue * 10 - 15 ).toFixed(2) + '%';
       var top = ( verticalValue * 10 - 15 ).toFixed(2) + '%';
@@ -95,22 +98,46 @@
      * @param {number} [duration] The shake duration in ms
      */
     shake: function(intensity, duration){
+      if(this.state === 'shake'){
+        return;
+      }
       intensity = intensity || 0.5;
       duration = duration || 300;
 
-      var hits = ~~(duration / 50);
-      var prevHor = this.currentHorizontal;
-      var prevVert = this.currentVertical;
+      setTimeout(this.endShake.bind(this), duration);
+      this.beginShake(intensity);
+    },
 
-      for (var i = 0; i < hits; i++) {
-        setTimeout(function(){
-          //this.move(this.getRandomPosition(prevHor, intensity), this.getRandomPosition(prevVert, intensity));
-          this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
-        }.bind(this), 50 * i);
+    /**
+     * Starts to shake the cockpit
+     *
+     * The cockpit will shake until endShake() is called.
+     *
+     * @param {number} [intensity] The shake intensity from 0 to 1
+     */
+    beginShake: function(intensity){
+      if(this.state === 'shake'){
+        return;
       }
-      setTimeout(function(){
-        //this.move(prevHor, prevVert);
-      }.bind(this), 50 * hits);
+      this.state = 'shake';
+      intensity = intensity || 0.5;
+      var interval;
+
+      interval = setInterval(function(){
+        if (this.state !== 'shake') {
+          clearInterval(interval);
+          return;
+        }
+        this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
+      }.bind(this), 50);
+    },
+
+    /**
+     * Ends the shaking started with beginShake()
+     *
+     */
+    endShake: function(){
+      this.state = 'normal';
     },
 
     /**
@@ -121,20 +148,13 @@
      * @param {number} [duration] The vibration duration
      */
     vibrate: function(duration){
+      if(this.state === 'vibrate'){
+        return;
+      }
       duration = duration || 600;
 
-      var moves = ~~(duration / 30);
-      var curHor = this.currentHorizontal;
-      var curVert = this.currentVertical;
-      for (var i=0; i < moves; i++) {
-        var modificator = 0.01 * (i % 2 ? 1 : -1);
-        setTimeout((function(cockpit, mod){
-          return function(){
-            //cockpit.move(curHor + mod, curVert + mod);
-            cockpit.move(cockpit.currentHorizontal + mod, cockpit.currentVertical + mod);
-          };
-        })(this, modificator), 30 * i);
-      }
+      setTimeout(this.endVibrate.bind(this), duration);
+      this.beginVibrate();
     },
 
     /**
@@ -143,12 +163,15 @@
      * The cockpit will vibrate until endVibrate() is called
      */
     beginVibrate: function(){
-      this.isVibrating = true;
+      if(this.state === 'vibrate'){
+        return;
+      }
+      this.state = 'vibrate'
       var direction = 1;
       var interval;
 
       interval = setInterval(function(){
-        if (!this.isVibrating) {
+        if (this.state !== 'vibrate') {
           clearInterval(interval);
           return;
         }
@@ -156,7 +179,6 @@
         var modificator = 0.01 * direction;
         this.move(this.currentHorizontal + modificator, this.currentVertical + modificator);
       }.bind(this), 30);
-
     },
 
     /**
@@ -164,7 +186,34 @@
      *
      */
     endVibrate: function(){
-      this.isVibrating = false;
+      this.state = 'normal';
+    },
+
+    /**
+     * Sets the state of the cockpit
+     *
+     * Will also end previous states if differs from current.
+     *
+     * This can be used instead of the begin/end methods.
+     *
+     * @param {string} state The new state to set, can be one of 'vibrate',
+     *    'shake' or 'normal'
+     */
+    setState: function(state){
+      if(this.state === state){
+        return;
+      }
+      switch(state){
+        case 'vibrate':
+          this.beginVibrate();
+          break;
+        case 'shake':
+          this.beginShake();
+          break;
+        default:
+          this.state = 'normal';
+          break;
+      }
     },
 
     /**

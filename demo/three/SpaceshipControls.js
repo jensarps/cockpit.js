@@ -115,7 +115,7 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 
 	this.mousemove = function( event ) {
 
-			var container = this.getContainerDimensions();
+			var container = this.containerDimensions;
 			var halfWidth  = container.size[ 0 ] / 2;
 			var halfHeight = container.size[ 1 ] / 2;
 
@@ -173,24 +173,22 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 
 	};
 
-	this.getContainerDimensions = function() {
+	this.onContainerDimensionsChanged = function() {
+
+    var dimensions;
 
 		if ( this.domElement != document ) {
-
-			return {
+			dimensions = {
 				size	: [ this.domElement.offsetWidth, this.domElement.offsetHeight ],
 				offset	: [ this.domElement.offsetLeft,  this.domElement.offsetTop ]
 			};
-
 		} else {
-
-			return {
+			dimensions = {
 				size	: [ window.innerWidth, window.innerHeight ],
 				offset	: [ 0, 0 ]
 			};
-
 		}
-
+    this.containerDimensions = dimensions;
 	};
 
 	function bind( scope, fn ) {
@@ -205,5 +203,6 @@ THREE.SpacheshipControls = function ( object, domElement ) {
 
 	this.updateMovementVector();
 	this.updateRotationVector();
+  this.onContainerDimensionsChanged();
 
 };
