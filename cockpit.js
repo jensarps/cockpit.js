@@ -156,20 +156,13 @@
      * @param {number} [duration] The vibration duration
      */
     vibrate: function(duration){
+      if(this.state === 'vibrate'){
+        return;
+      }
       duration = duration || 600;
 
-      var moves = ~~(duration / 30);
-      var curHor = this.currentHorizontal;
-      var curVert = this.currentVertical;
-      for (var i=0; i < moves; i++) {
-        var modificator = 0.01 * (i % 2 ? 1 : -1);
-        setTimeout((function(cockpit, mod){
-          return function(){
-            //cockpit.move(curHor + mod, curVert + mod);
-            cockpit.move(cockpit.currentHorizontal + mod, cockpit.currentVertical + mod);
-          };
-        })(this, modificator), 30 * i);
-      }
+      setTimeout(this.endVibrate.bind(this), duration);
+      this.beginVibrate();
     },
 
     /**
