@@ -145,7 +145,7 @@
      *
      */
     endShake: function(){
-      this.isShaking = false;
+      this.state = 'normal';
     },
 
     /**
@@ -201,7 +201,7 @@
      *
      */
     endVibrate: function(){
-      this.isVibrating = false;
+      this.state = 'normal';
     },
 
     /**
