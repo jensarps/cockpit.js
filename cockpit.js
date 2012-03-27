@@ -27,6 +27,7 @@
       this.textNodes = {};
       this.setupNodes();
       this.textProperty = typeof this.wrapperNode.innerText !== 'undefined' ? 'innerText' : 'textContent';
+      this.translateProperty = 'webkitTransform' in this.wrapperNode.style ? 'webkitTransform' : 'mozTransform'
     },
 
     setupNodes: function() {
@@ -69,10 +70,10 @@
         return;
       }
       var cockpitNodeStyle = this.cockpitNode.style;
-      var left = ( horizontalValue * 10 - 15 ).toFixed(2) + '%';
-      var top = ( verticalValue * 10 - 15 ).toFixed(2) + '%';
-      cockpitNodeStyle.left = left;
-      cockpitNodeStyle.top = top;
+      var left = ( horizontalValue * 7.5).toFixed(3) + '%';
+      var top = ( verticalValue * 7.5).toFixed(3) + '%';
+      cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0)';
+
       this.currentHorizontal = horizontalValue;
       this.currentVertical = verticalValue;
     },
