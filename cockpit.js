@@ -66,16 +66,30 @@
      * @param {number} y The vertical movement
      */
     move: function(x, y){
-      if(this.currentHorizontal == x && this.currentVertical == y){
-        return;
-      }
-      var cockpitNodeStyle = this.cockpitNode.style;
-      var left = ( x * 7.5).toFixed(3) + '%';
-      var top = ( y * 7.5).toFixed(3) + '%';
-      cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0)';
+      var isDirty = false;
 
-      this.currentHorizontal = x;
-      this.currentVertical = y;
+      if (x !== null) {
+        x = x.toPrecision(3) * 1;
+        if(x !== this.currentHorizontal){
+          isDirty = true;
+          this.currentHorizontal = x;
+        }
+      }
+
+      if (y !== null) {
+        y = y.toPrecision(3) * 1;
+        if(y !== this.currentVertical){
+          isDirty = true;
+          this.currentVertical = y;
+        }
+      }
+
+      if(isDirty){
+        var cockpitNodeStyle = this.cockpitNode.style;
+        var left = ( x * 7.5).toFixed(3) + '%';
+        var top = ( y * 7.5).toFixed(3) + '%';
+        cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0)';
+      }
     },
 
     /**
