@@ -27,6 +27,7 @@
       this.textNodes = {};
       this.setupNodes();
       this.textProperty = typeof this.wrapperNode.innerText !== 'undefined' ? 'innerText' : 'textContent';
+      this.translateProperty = 'webkitTransform' in this.wrapperNode.style ? 'webkitTransform' : 'mozTransform'
     },
 
     setupNodes: function() {
@@ -61,20 +62,20 @@
      * movement. Range for these values is from -1 (max negative movement) to
      * 1 (max positive movement). 0 means no movement.
      *
-     * @param {number} horizontalValue The horizontal movement
-     * @param {number} verticalValue The vertical movement
+     * @param {number} x The horizontal movement
+     * @param {number} y The vertical movement
      */
-    move: function(horizontalValue, verticalValue){
-      if(this.currentHorizontal == horizontalValue && this.currentVertical == verticalValue){
+    move: function(x, y){
+      if(this.currentHorizontal == x && this.currentVertical == y){
         return;
       }
       var cockpitNodeStyle = this.cockpitNode.style;
-      var left = ( horizontalValue * 10 - 15 ).toFixed(2) + '%';
-      var top = ( verticalValue * 10 - 15 ).toFixed(2) + '%';
-      cockpitNodeStyle.left = left;
-      cockpitNodeStyle.top = top;
-      this.currentHorizontal = horizontalValue;
-      this.currentVertical = verticalValue;
+      var left = ( x * 7.5).toFixed(3) + '%';
+      var top = ( y * 7.5).toFixed(3) + '%';
+      cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0)';
+
+      this.currentHorizontal = x;
+      this.currentVertical = y;
     },
 
     /**
