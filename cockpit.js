@@ -21,6 +21,8 @@
 
     currentHorizontal: 0,
 
+    currentZ: 0,
+
     state: 'normal',
 
     setup: function() {
