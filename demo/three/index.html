@@ -389,6 +389,8 @@
                 force = ( vel - controls.movementSpeed ) * 10;
                 forceLimitReached = Math.abs(force) > 3.75;
 
+                cockpit.move(null, null, force / 10);
+
                 document.documentElement.classList[forceLimitReached ? 'add' : 'remove']('force-warning');
 
                 if( forceLimitReached || atmosphereEntered ){
