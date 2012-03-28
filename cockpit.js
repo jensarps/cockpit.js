@@ -64,31 +64,32 @@
      *
      * @param {number} x The horizontal movement
      * @param {number} y The vertical movement
+     * @param {number} z The depth movement
      */
-    move: function(x, y){
+    move: function(x, y, z){
       var isDirty = false;
 
-      if (x !== null) {
-        x = x.toPrecision(3) * 1;
-        if(x !== this.currentHorizontal){
-          isDirty = true;
-          this.currentHorizontal = x;
-        }
+      if (x != null && x !== this.currentHorizontal){
+        isDirty = true;
+        this.currentHorizontal = x;
       }
 
-      if (y !== null) {
-        y = y.toPrecision(3) * 1;
-        if(y !== this.currentVertical){
-          isDirty = true;
-          this.currentVertical = y;
-        }
+      if (y != null && y !== this.currentVertical){
+        isDirty = true;
+        this.currentVertical = y;
+      }
+
+      if (z != null && z !== this.currentZ){
+        isDirty = true;
+        this.currentZ = z;
       }
 
       if(isDirty){
         var cockpitNodeStyle = this.cockpitNode.style;
-        var left = ( x * 7.5).toFixed(3) + '%';
-        var top = ( y * 7.5).toFixed(3) + '%';
-        cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0)';
+        var left = ( this.currentHorizontal * 7.5).toFixed(3) + '%';
+        var top = ( this.currentVertical * 7.5).toFixed(3) + '%';
+        var scale = this.currentZ * 0.5 + 1;
+        cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0) scale(' + scale + ')';
       }
     },
 
