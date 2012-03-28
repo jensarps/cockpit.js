@@ -17,9 +17,9 @@
 
     textNodes: null,
 
-    currentVertical: 0,
+    currentY: 0,
 
-    currentHorizontal: 0,
+    currentX: 0,
 
     currentZ: 0,
 
@@ -71,14 +71,14 @@
     move: function(x, y, z){
       var isDirty = false;
 
-      if (x != null && x !== this.currentHorizontal){
+      if (x != null && x !== this.currentX){
         isDirty = true;
-        this.currentHorizontal = x;
+        this.currentX = x;
       }
 
-      if (y != null && y !== this.currentVertical){
+      if (y != null && y !== this.currentY){
         isDirty = true;
-        this.currentVertical = y;
+        this.currentY = y;
       }
 
       if (z != null && z !== this.currentZ){
@@ -88,8 +88,8 @@
 
       if(isDirty){
         var cockpitNodeStyle = this.cockpitNode.style;
-        var left = ( this.currentHorizontal * 7.5).toFixed(3) + '%';
-        var top = ( this.currentVertical * 7.5).toFixed(3) + '%';
+        var left = ( this.currentX * 7.5).toFixed(3) + '%';
+        var top = ( this.currentY * 7.5).toFixed(3) + '%';
         var scale = this.currentZ * 0.5 + 1;
         cockpitNodeStyle[this.translateProperty] = 'translate3d(' + left + ',' + top + ',0) scale(' + scale + ')';
       }
@@ -146,7 +146,7 @@
           clearInterval(interval);
           return;
         }
-        this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
+        this.move(this.getRandomPosition(this.currentX, intensity), this.getRandomPosition(this.currentY, intensity));
       }.bind(this), 50);
     },
 
@@ -195,7 +195,7 @@
         }
         direction *= -1;
         var modificator = 0.01 * direction;
-        this.move(this.currentHorizontal + modificator, this.currentVertical + modificator);
+        this.move(this.currentX + modificator, this.currentY + modificator);
       }.bind(this), 30);
     },
 
