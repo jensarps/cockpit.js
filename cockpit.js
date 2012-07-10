@@ -1,5 +1,10 @@
-
-;(function(global){
+;(function(name, definition, global){
+	if (typeof define === 'function'){
+		define(definition);
+	} else {
+		global[name] = definition();
+	}
+})('Cockpit', function(){
 
   var Cockpit = function(url){
     this.imageUrl = url;
@@ -249,6 +254,6 @@
     }
   };
 
-  global.Cockpit = Cockpit;
+  return Cockpit;
 
-})(this);
+}, this);
