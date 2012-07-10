@@ -6,8 +6,9 @@
 	}
 })('Cockpit', function(){
 
-  var Cockpit = function(url){
+  var Cockpit = function(url, timer){
     this.imageUrl = url;
+    this.timer = timer || window;
 
     this.setup();
   };
@@ -110,7 +111,7 @@
       intensity = intensity || 0.5;
       duration = duration || 300;
 
-      setTimeout(this.endShake.bind(this), duration);
+      this.timer.setTimeout(this.endShake.bind(this), duration);
       this.beginShake(intensity);
     },
 
@@ -129,9 +130,9 @@
       intensity = intensity || 0.5;
       var interval;
 
-      interval = setInterval(function(){
+      interval = this.timer.setInterval(function(){
         if (this.state !== 'shake') {
-          clearInterval(interval);
+          this.timer.clearInterval(interval);
           return;
         }
         this.move(this.getRandomPosition(this.currentHorizontal, intensity), this.getRandomPosition(this.currentVertical, intensity));
@@ -172,13 +173,13 @@
       if(this.state === 'vibrate'){
         return;
       }
-      this.state = 'vibrate'
+      this.state = 'vibrate';
       var direction = 1;
       var interval;
 
-      interval = setInterval(function(){
+      interval = this.timer.setInterval(function(){
         if (this.state !== 'vibrate') {
-          clearInterval(interval);
+          this.timer.clearInterval(interval);
           return;
         }
         direction *= -1;
