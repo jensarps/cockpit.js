@@ -11,7 +11,8 @@ and plan to add more features to it without increasing it's low complexity.
 
 # Usage
 
-Grab the cockpit.js file and include it in your page.
+Grab the cockpit.js file and include it in your page via script tag or pull it
+in using an AMD loader like require.js.
 
 To add a cockpit to your game, just create a new Cockpit instance and pass the
 path to the cockpit overlay image:
