@@ -73,7 +73,7 @@ with the id you previously passed and the new text.
 
 # TODO
 
-* Use transform3d() instead of left/right and compare performance
+* ~~Use transform3d() instead of left/right and compare performance~~
 * ~~Add beginShake() and endShake() methods to do ongoing shaking~~
 * ~~Add methods to conveniently add HUD like text to the cockpit~~
 * Add methods to allow grouping of text items
