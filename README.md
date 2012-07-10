@@ -82,4 +82,4 @@ with the id you previously passed and the new text.
 * Change shake and vibrate signature to kwArgs to not screw up existing code
 when new params are introduced
 * Add z-axis movement, might look nice for intense de-/acceleration
-* Add UMD wrapper
+* ~~Add UMD wrapper~~
