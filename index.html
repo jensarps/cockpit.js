@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8'>
+    <meta charset='utf-8'>
 
-  <title>cockpit.js</title>
-	<link rel="stylesheet" href="/css/style.css" />
-	<script type="text/javascript">
-	
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-10931011-2']);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	
-	</script>
+    <title>cockpit.js</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-10931011-2']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
 </head>
 
 <body>
-  <a href="https://github.com/jensarps/cockpit.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<a href="https://github.com/jensarps/cockpit.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
+<div id="container">
 
     <h1><a href="https://github.com/jensarps/cockpit.js">cockpit.js</a></h1>
 
@@ -31,37 +31,108 @@
         A retro-style 2D cockpit overlay for your 3D game
     </div>
 
-	<p>
-        cockpit.js lets you add an retro-style 2D cockpit overlay to your 3D game and
+    <p>cockpit.js lets you add an retro-style 2D cockpit overlay to your 3D game and
         lets you move it around, vibrate and shake it to simulate the player's head
-        movement and/or physical impact on the ship/car/plane/vehicle.
-    </p>
-    <p>
-        The idea is strikingly simple and has worked for years in simulators (and is
+        movement and/or physical impact on the ship/car/plane/vehicle.</p>
+
+    <p>The idea is strikingly simple and has worked for years in simulators (and is
         still being used today in games). I figured that the implementation would be
         strikingly simple as well and gave it a shot on a sunday night. But, I like it,
-        and plan to add more features to it without increasing it's low complexity.
-	</p>
-	
-	<h2>Usage</h2>
-	<p>For details on usage, please see the project's <a href="https://github.com/jensarps/cockpit.js/blob/master/README.md">README</a>.</p>
+        and plan to add more features to it without increasing it's low complexity.</p>
 
-    <h2>Demo</h2>
-	<ul>
-        <li><a href="demo/three">Three.js</a>: When you get too close to the earth's atmosphere, the ship will start to vibrate and lose speed. Observe the HUD to see your current thrust, speed and g-force.</li>
-		<li><a href="demo/plain">Plain</a>: A cockpit over a white background. Yeah. Doubleclick to shake, right click to vibrate.</li>
-	</ul>
+    <h1>Usage</h1>
 
-	<h2>Author</h2>
-	<p><a href="https://github.com/jensarps">Jens Arps</a></p>
-	
-	<h2>Contact</h2>
-	<p>Ping me on Twitter: <a href="https://twitter.com/#!/jensarps">@jensarps</a></p>
+    <p>Grab the cockpit.js file and include it in your page via script tag or pull it
+        in using an AMD loader like require.js.</p>
+
+    <p>To add a cockpit to your game, just create a new Cockpit instance and pass the
+        path to the cockpit overlay image:</p>
+
+    <p><code>var cockpit = new Cockpit('path/to/my/overlay.png');</code></p>
+
+    <h2>Basic Effects</h2>
+
+    <p>The most basic thing to do now is to move your cockpit around:</p>
+
+    <p><code>cockpit.move(horizontalValue, verticalValue);</code></p>
+
+    <p>The two values you have to pass must be numbers ranging from 0 to 1, where 1 is  the maximum movement.</p>
+
+    <p>Next, make your cockpit vibrate for a set duration:</p>
+
+    <p><code>cockpit.vibrate(duration);</code></p>
+
+    <p>Duration is passed in ms and optional, defaulting to 600ms.</p>
+
+    <p>If you don't now upfront how long your cockpit is going to vibrate, use the following two methods:</p>
+
+    <p><code>cockpit.beginVibrate();</code> and <code>cockpit.endVibrate();</code></p>
+
+    <p>If things go hairy, e.g. your vehicle is being hit, you can shake your cockpit:</p>
+
+    <p><code>cockpit.shake(intensity, duration);</code></p>
+
+    <p>Where intensity is a number from 0 to 1. Duration is passed in ms. Both arguments are optional, intensity defaulting to 0.5 and duration to 300.</p>
+
+    <p>As with vibrating, you can shake the cockpit for an unknown amount of time using</p>
+
+    <p><code>cockpit.beginShake(intensity);</code> and <code>cockpit.endShake();</code></p>
+
+    <p>The intensity param is optional and works as described above.</p>
+
+    <p>Instead of the begin/end methods, you can also use the following method:</p>
+
+    <p><code>cockpit.setState(state);</code></p>
+
+    <p>where state is one of 'normal', 'vibrate' or 'shake'. You can't pass any options for now (it will use default values), but you have a convenient method to toggle between the different states.</p>
+
+    <h2>Text Items</h2>
+
+    <p>You can also add some HUD-like text items to your cockpit, that will move around with the cockpit:</p>
+
+    <p><code>cockpit.addText(id, textToDisplay);</code></p>
+
+    <p>The id is applied to the text item's DOMNode, so you can use it to position and style it. For positioning, I recommend to use absolute positioning with percentages so that the text will stay in place independent of window size (well, almost, soo TODO section).</p>
+
+    <p>To update your text item, just call</p>
+
+    <p><code>cockpit.updateText(id, textToDisplay);</code></p>
+
+    <p>with the id you previously passed and the new text.</p>
+
+    <h2>Custom Timer / Render Loop</h2>
+
+    <p>By default, cockpit.js uses <code>window</code>'s timeout and interval methods. If you want to move all DOM modifications caused by moving/vibrating/shaking into a render loop (and you will probably want to), you can pass a custom timer to the constructor:</p>
+
+    <p><code>var cockpit = new Cockpit('path/to/my/overlay.png', myTimer);</code></p>
+
+    <p>That timer needs to provide the <code>setTimeout</code>, <code>setInterval</code> and <code>clearInterval</code> methods. </p>
+
+    <p>Why using a render loop and custom timer? A quick example: If your cockpit is in a vibrating state, and the player pauses the game, your cockpit would continue shaking, even though the game is paused. </p>
+
+    <p>But, code is better than words, see example #3 and view-source.</p>
+
+    <p>A pausable timer can be found <a href="https://github.com/jensarps/game-timer">here</a> (this is the one I use in the example).</p>
+
+    <h1>Demos</h1>
+
+    <ul>
+        <li><a href="http://jensarps.github.com/cockpit.js/demo/three">Using cockpit.js over a three.js example.</a> When you get too close to the earth's atmosphere, the ship will start to vibrate and lose speed. Observe the HUD to see your current thrust, speed and g-force.</li>
+        <li><a href="http://jensarps.github.com/cockpit.js/demo/plain">A cockpit over a white background.</a> Yeah. Just for a quick test. Doubleclick to shake, right click to vibrate.</li>
+        <li><a href="http://jensarps.github.com/cockpit.js/demo/custom-timer">cockpit.js using a custom timer and a render loop.</a> Double click to start vibrating, and pause/unpause the render loop.</li>
+    </ul>
+
+
+    <h2>Author</h2>
+    <p><a href="https://github.com/jensarps">Jens Arps</a></p>
+
+    <h2>Contact</h2>
+    <p>Ping me on Twitter: <a href="https://twitter.com/#!/jensarps">@jensarps</a></p>
 
     <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/jensarps/cockpit.js">jensarps/cockpit.js</a>
+        get the source code on GitHub : <a href="https://github.com/jensarps/cockpit.js">jensarps/cockpit.js</a>
     </div>
 
-  </div>
+</div>
 </body>
 </html>
