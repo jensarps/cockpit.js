@@ -19,6 +19,8 @@ path to the cockpit overlay image:
 
 `var cockpit = new Cockpit('path/to/my/overlay.png');`
 
+##Basic Effects
+
 The most basic thing to do now is to move your cockpit around:
 
 `cockpit.move(horizontalValue, verticalValue);`
@@ -52,6 +54,8 @@ Instead of the begin/end methods, you can also use the following method:
 `cockpit.setState(state);`
 
 where state is one of 'normal', 'vibrate' or 'shake'. You can't pass any options for now (it will use default values), but you have a convenient method to toggle between the different states.
+
+##Text Items
 
 You can also add some HUD-like text items to your cockpit, that will move around with the cockpit:
 
