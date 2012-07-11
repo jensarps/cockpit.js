@@ -69,11 +69,26 @@ To update your text item, just call
 
 with the id you previously passed and the new text.
 
+##Custom Timer / Render Loop
+
+By default, cockpit.js uses `window`'s timeout and interval methods. If you want to move all DOM modifications caused by moving/vibrating/shaking into a render loop (and you will probably want to), you can pass a custom timer to the constructor:
+
+`var cockpit = new Cockpit('path/to/my/overlay.png', myTimer);`
+
+That timer needs to provide the `setTimeout`, `setInterval` and `clearInterval` methods. 
+
+Why using a render loop and custom timer? A quick example: If your cockpit is in a vibrating state, and the player pauses the game, your cockpit would continue shaking, even though the game is paused. 
+
+But, code is better than words, see example #3 and view-source.
+
+A pausable timer can be found [here](https://github.com/jensarps/game-timer) (this is the one I use in the example).
+
 
 # Demos
 
 * [Using cockpit.js over a three.js example.](http://jensarps.github.com/cockpit.js/demo/three) When you get too close to the earth's atmosphere, the ship will start to vibrate and lose speed. Observe the HUD to see your current thrust, speed and g-force.
 * [A cockpit over a white background.](http://jensarps.github.com/cockpit.js/demo/plain) Yeah. Just for a quick test. Doubleclick to shake, right click to vibrate.
+* [cockpit.js using a custom timer and a render loop.](http://jensarps.github.com/cockpit.js/demo/custom-timer) Double click to start vibrating, and pause/unpause the render loop.
 
 
 # TODO
