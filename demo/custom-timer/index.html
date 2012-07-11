@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>cockpit.js using a custom timer and a render loop</title>
+        <script type="text/javascript" src="../../cockpit.js"></script>
+        <script type="text/javascript" src="http://jensarps.github.com/game-timer/timer.js"></script>
+        <script type="text/javascript">
+            // window.requestAnimationFrame, credit: Erik Moller
+            // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+            (function() {
+                var lastTime = 0;
+                var vendors = ["webkit", "moz", "ms", "o"];
+                var x;
+
+                for(x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                    window.requestAnimationFrame = window[vendors[x]+"RequestAnimationFrame"];
+                }
+
+                window.cancelAnimationFrame = window.cancelAnimationFrame || window.cancelRequestAnimationFrame; // Check for older syntax
+                for(x = 0; x < vendors.length && !window.cancelAnimationFrame; ++x) {
+                    window.cancelAnimationFrame = window[vendors[x]+"CancelAnimationFrame"] || window[vendors[x]+"CancelRequestAnimationFrame"];
+                }
+
+                // Manual fallbacks
+                if (!window.requestAnimationFrame) {
+                    window.requestAnimationFrame = function(callback, element) {
+                        var currTime = Date.now();
+                        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                        var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                          timeToCall);
+                        lastTime = currTime + timeToCall;
+                        return id;
+                    };
+                }
+
+                if (!window.cancelAnimationFrame) {
+                    window.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+                }
+
+                // window.animationStartTime
+                if(!window.animationStartTime) {
+                    getter = (function() {
+                        for(x = 0; x < vendors.length; ++x) {
+                            if(window[vendors[x] + "AnimationStartTime"]) {
+                                return function() { return window[vendors[x] + "AnimationStartTime"]; };
+                            }
+                        }
+
+                        return function() { return Date.now(); };
+                    })();
+
+                    Object.defineProperty(window, "animationStartTime", {
+                        enumerable: true, configurable: false, writeable: false,
+                        get: getter
+                    });
+                }
+            }());
+        </script>
+        <style type="text/css">
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+            #wrapper {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            #info {
+                position: absolute;
+                top: 0;
+                text-align: center;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="info">
+                - cockpit.js using a custom timer and a render loop -<br>
+                <br>
+                All changes are being made within a render loop.<br>
+                Double click to start vibrating the overlay.<br>
+                Press the button below to pause/unpause the loop.<br>
+                <br>
+                <button id="pause-button" onclick="togglePause()">Pause</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var timer = new Timer();
+            var cockpit = new Cockpit('../cockpit.png', timer);
+
+            var paused = false;
+            var lastTime = +new Date();
+
+            var wrapper = document.getElementById('wrapper');
+            var pauseButton = document.getElementById('pause-button');
+
+            // setup move event, apply changes only during loop
+            var width = wrapper.offsetWidth;
+            var height = wrapper.offsetHeight;
+            var vert = 0;
+            var hor = 0;
+            wrapper.addEventListener('mousemove', function(evt){
+                vert = ( height / 2 - evt.clientY ) / ( height / 2 );
+                hor = ( width / 2 - evt.clientX ) / ( width / 2 );
+            });
+
+            // setup dblclick event
+            wrapper.addEventListener('dblclick', function(){
+                cockpit.beginVibrate();
+            });
+
+            // go!
+            loop(lastTime);
+
+            // the render loop
+            function loop(time){
+                if(!paused){
+                    requestAnimationFrame(loop);
+                }
+
+                // apply mouse move changes
+                cockpit.move(hor, vert);
+
+                // get delta
+                var delta = time - lastTime;
+                lastTime = time;
+
+                // update timer; this will call cockpit's updates
+                timer.update(delta);
+            }
+
+            function togglePause(){
+                if(paused){
+                    pauseButton.innerHTML = 'Pause';
+                    lastTime = +new Date();
+                    paused = false;
+                    loop(lastTime);
+                } else {
+                    pauseButton.innerHTML = 'Continue';
+                    paused = true;
+                }
+            }
+
+        </script>
+    </body>
+</html>
